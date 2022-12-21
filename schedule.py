@@ -11,12 +11,12 @@ async def schedule_message(channel):
 
         if weekday in range(0, 5):
             if current_server_time == '15:00':
-                channel.send('@everyone night raid in 1 hour')
+                await channel.send('@everyone night raid in 1 hour')
             if current_server_time == '15:50':
-                channel.send('@everyone night raid in 10 min')
+                await channel.send('@everyone night raid in 10 min')
         if weekday in range(5, 6):
             if current_server_time in {'08:00', '15:00', '20:00'}:
-                channel.send('@everyone world boss')
+                await channel.send('@everyone world boss')
 
         print(weekday, current_server_time)
 
