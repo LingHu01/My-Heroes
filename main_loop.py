@@ -9,8 +9,7 @@ class MyClient(discord.Client):
 
     async def on_message(self, message):
         if message.author != self.user and message.content:
-            channel = client.get_channel(1055206234657148970)
-            await channel.send(f'Message from {message.author}: {message.content}')
+            print(f'Message from {message.author}: {message.content}')
 
     async def on_member_join(self, member):
         guild = member.guild
