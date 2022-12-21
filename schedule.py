@@ -18,8 +18,6 @@ async def schedule_message(channel):
             if current_server_time in {'08:00', '15:00', '20:00'}:
                 channel.send('@everyone world boss')
 
-
-
         print(weekday, current_server_time)
 
         await sleep(60)
