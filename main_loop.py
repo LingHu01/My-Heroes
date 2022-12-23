@@ -23,6 +23,18 @@ class MyClient(discord.Client):
             return
         await command_response.main(message)
 
+    async def on_member_join(self, member):
+        guild = member.guild
+        if guild.system_channel is None:
+            return
+
+        to_send = \
+            f'Welcome {member.mention} to {guild.name}!\n' + \
+            'Change name to your in game name\n' + \
+            'To apply tag @staff in <#1055160381288501348>\n' + \
+            'check <#1055865903906046054> if you\'re interested in guild events'
+        await guild.system_channel.send(to_send)
+
     async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent) :
         if payload.message_id != self.role_message_id :
             return
@@ -61,17 +73,6 @@ class MyClient(discord.Client):
             await member.remove_roles(role)
         except discord.HTTPException:
             pass
-
-    async def on_member_join(self, member):
-        guild = member.guild
-        if guild.system_channel is None:
-            return
-
-        to_send = \
-            f'Welcome {member.mention} to {guild.name}!\n' + \
-            'Change name to your in game name\n' + \
-            'To apply tag @staff in <#1055160381288501348>'
-        await guild.system_channel.send(to_send)
 
 intents = discord.Intents.default()
 intents.message_content = True
