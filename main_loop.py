@@ -19,9 +19,10 @@ class MyClient(discord.Client):
         await client.loop.create_task(schedule.schedule_message(channel))
 
     async def on_message(self, message):
-        if message.author == self.user.bot:
+        if message.author.bot:
             return
-        await command_response.main(message)
+        if message.content.startswith('!'):
+            await command_response.main(message)
 
     async def on_member_join(self, member):
         guild = member.guild
