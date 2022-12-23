@@ -14,7 +14,7 @@ async def schedule_message(channel):
                 await channel.send('<@&1055864399421771807> in 1 hour')
             if current_server_time == '15:50':
                 await channel.send('<@&1055864399421771807> in 10 min')
-            if current_server_time == '15:50':
+            if current_server_time == '16:00':
                 await channel.send('<@&1055864399421771807> now')
         if weekday in range(5, 6):
             if current_server_time in {'08:00', '15:00', '20:00'}:
