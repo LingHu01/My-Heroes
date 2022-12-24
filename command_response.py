@@ -11,6 +11,8 @@ async def main(message):
 	if message.content.startswith('!bulkdelete'):
 		if message.author.server_permissions.administrator:
 			await bulk_delete(channel)
+		else:
+			await channel.send(f'{author.name} tried to bulk delete')
 		return
 
 	with open('helptext.txt') as file:

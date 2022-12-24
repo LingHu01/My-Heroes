@@ -1,1 +1,2 @@
-!roll   roll a dice
+!roll           roll a dice
+!bulkdelete     delete all message from channel (admin only)
