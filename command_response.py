@@ -3,13 +3,14 @@ from asyncio import sleep
 
 async def main(message):
 	channel = message.channel
-	author_name = message.author.display_name
+	author= message.author
 	if message.content.startswith('!roll'):
-		await roll(channel, author_name)
+		await roll(channel, author)
 		return
 
 	if message.content.startswith('!bulkdelete'):
-		await bulk_delete(channel)
+		if message.author.server_permissions.administrator:
+			await bulk_delete(channel)
 		return
 
 	with open('helptext.txt') as file:
@@ -23,7 +24,7 @@ async def bulk_delete(channel):
 		await sleep(1)
 	return
 
-async def roll(channel, author_name):
-	to_send = f'{author_name} rolled {random.randint(1, 6)}'
+async def roll(channel, author):
+	to_send = f'{author.display_name} rolled {random.randint(1, 6)}'
 	await channel.send(to_send)
 	return
