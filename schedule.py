@@ -1,6 +1,7 @@
 from datetime import datetime
 import pytz
 from asyncio import sleep
+from command_response import bulk_delete
 
 async def schedule_message(channel):
     server_timezone = pytz.timezone("America/New_York")
@@ -19,5 +20,8 @@ async def schedule_message(channel):
         if weekday in range(5, 6):
             if current_server_time in {'08:00', '15:00', '20:00'}:
                 await channel.send('<@&1055864488357810357>')
+
+        if current_server_time == '01:00':
+            await bulk_delete(channel)
 
         await sleep(60)
