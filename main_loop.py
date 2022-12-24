@@ -21,12 +21,17 @@ class MyClient(discord.Client):
     async def on_message(self, message):
         if message.author.bot:
             return
+        if not message.guild.id == 1048019801802555392:
+            return
+
         if message.content.startswith('!'):
             await command_response.main(message)
 
     async def on_member_join(self, member):
         guild = member.guild
         if guild.system_channel is None:
+            return
+        if not guild.id == 1048019801802555392:
             return
 
         to_send = \
