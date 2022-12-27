@@ -8,7 +8,7 @@ import requests
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs) :
         super().__init__(*args, **kwargs)
-        self.emoji_dict = pickle.load(open('emoji_dict.pkl', 'rb'))
+        # self.emoji_dict = pickle.load(open('emoji_dict.pkl', 'rb'))
         self.role_message_id = 1055867648891703376
         self.emoji_to_role = {
             discord.PartialEmoji(name='🔴')           : 1055864399421771807,
