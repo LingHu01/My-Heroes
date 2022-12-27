@@ -4,12 +4,13 @@ from asyncio import sleep
 async def main(message):
 	channel = message.channel
 	author= message.author
+	await message.delete()
 	if message.content.startswith('!roll'):
 		await roll(channel, author)
 		return
 
 	if message.content.startswith('!bulkdelete'):
-		if message.author.server_permissions.administrator:
+		if 'staff' in  (role.name for role in message.author.roles):
 			await bulk_delete(channel)
 		else:
 			await channel.send(f'{author.name} tried to bulk delete')
