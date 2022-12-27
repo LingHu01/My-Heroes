@@ -11,8 +11,8 @@ async def schedule_message(channel):
         current_server_time = time_info.strftime("%H:%M")
 
         if weekday in range(0, 5):
-            if current_server_time == '15:00':
-                await channel.send('<@&1055864399421771807> in 1 hour')
+            if current_server_time == '15:30':
+                await channel.send('<@&1055864399421771807> in 30 min')
             if current_server_time == '15:50':
                 await channel.send('<@&1055864399421771807> in 10 min')
             if current_server_time == '16:00':
@@ -21,7 +21,7 @@ async def schedule_message(channel):
             if current_server_time in {'08:00', '15:00', '20:00'}:
                 await channel.send('<@&1055864488357810357>')
 
-        if current_server_time == '01:00':
+        if current_server_time == '01:00' and weekday == 6:
             await bulk_delete(channel)
 
         await sleep(60)

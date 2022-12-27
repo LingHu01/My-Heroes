@@ -1,12 +1,14 @@
 import schedule
 import discord
 import command_response
+import pickle
+import requests
 
 
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs) :
         super().__init__(*args, **kwargs)
-
+        self.emoji_dict = pickle.load(open('emoji_dict.pkl', 'rb'))
         self.role_message_id = 1055867648891703376
         self.emoji_to_role = {
             discord.PartialEmoji(name='🔴')           : 1055864399421771807,
@@ -18,7 +20,7 @@ class MyClient(discord.Client):
         channel = client.get_channel(1055175384926273546)
         await client.loop.create_task(schedule.schedule_message(channel))
 
-    async def on_message(self, message):
+    async def on_message(self, message): # noqa
         if message.author.bot:
             return
         if not message.guild.id == 1048019801802555392:
@@ -27,7 +29,23 @@ class MyClient(discord.Client):
         if message.content.startswith('!'):
             await command_response.main(message)
 
-    async def on_member_join(self, member):
+        '''if message.content.startswith(':') and message.content.endswith(':'):
+            key = message.content[1:-1]
+            if key in self.emoji_dict.keys():
+                channel = client.get_channel(message.channel.id)
+                file = 'image\\' + self.emoji_dict[key]
+                original = message.author.display_name
+                name = message.author.display_name
+                try:
+                    req = requests.get(url=original.avatar.url)
+                    avatar = req.content
+                    webhook = await channel.create_webhook(name=name, avatar=avatar)
+                except AttributeError:
+                    webhook = await channel.create_webhook(name=name)
+                    await webhook.send(file= discord.File(file))
+                await webhook.delete()'''
+
+    async def on_member_join(self, member): # noqa
         guild = member.guild
         if guild.system_channel is None:
             return
