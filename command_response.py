@@ -53,4 +53,4 @@ async def GIF_list(user):
 			color=0x51F5EA
 		).set_thumbnail(url= "attachment://" + file.filename)
 		await user.send(file= file, embed=embed)
-
+	return
