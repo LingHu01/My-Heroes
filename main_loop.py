@@ -2,13 +2,13 @@ import schedule
 import discord
 import command_response
 import pickle
-import requests
+import GIF
 
 
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs) :
         super().__init__(*args, **kwargs)
-        # self.emoji_dict = pickle.load(open('emoji_dict.pkl', 'rb'))
+        self.GIF_dict = pickle.load(open('GIF_dict.pkl', 'rb'))
         self.role_message_id = 1055867648891703376
         self.emoji_to_role = {
             discord.PartialEmoji(name='🔴')           : 1055864399421771807,
@@ -23,27 +23,16 @@ class MyClient(discord.Client):
     async def on_message(self, message): # noqa
         if message.author.bot:
             return
-        if not message.guild.id == 1048019801802555392:
-            return
+
+        channel = client.get_channel(message.channel.id)
 
         if message.content.startswith('!'):
             await command_response.main(message)
 
-        '''if message.content.startswith(':') and message.content.endswith(':'):
+        if message.content.startswith(':') and message.content.endswith(':'):
+            await message.delete()
             key = message.content[1:-1]
-            if key in self.emoji_dict.keys():
-                channel = client.get_channel(message.channel.id)
-                file = 'image\\' + self.emoji_dict[key]
-                original = message.author.display_name
-                name = message.author.display_name
-                try:
-                    req = requests.get(url=original.avatar.url)
-                    avatar = req.content
-                    webhook = await channel.create_webhook(name=name, avatar=avatar)
-                except AttributeError:
-                    webhook = await channel.create_webhook(name=name)
-                    await webhook.send(file= discord.File(file))
-                await webhook.delete()'''
+            await GIF.post_GIF(key, self.GIF_dict, channel, message)
 
     async def on_member_join(self, member): # noqa
         guild = member.guild
