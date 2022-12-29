@@ -22,6 +22,7 @@ async def main(message):
 
 	if message.content.startswith('!GIF'):
 		await GIF_list(user)
+		return
 
 	await send_help(user)
 
@@ -30,12 +31,12 @@ async def bulk_delete(channel):
 	for message in messages_id :
 		await message.delete()
 		await sleep(1)
-	return
+
 
 async def roll(channel, author):
 	to_send = f'{author.display_name} rolled {random.randint(1, 6)}'
 	await channel.send(to_send)
-	return
+
 
 async def GIF_list(user):
 	dct = pickle.load(open('GIF_dict.pkl', 'rb'))
@@ -52,7 +53,6 @@ async def GIF_list(user):
 			color=0x51F5EA
 		).set_thumbnail(url= "attachment://" + file.filename)
 		await user.send(file= file, embed=embed)
-	return
 
 async def send_help(user):
 	embed = discord.Embed(title='command list', color=0x51F5EA)
