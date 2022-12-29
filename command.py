@@ -7,8 +7,8 @@ async def main(message):
 	channel = message.channel
 	author= message.author
 	user = message.author
+	await try_delete(message)
 
-	await message.delete()
 	if message.content.startswith('!roll'):
 		await roll(channel, author)
 		return
@@ -23,8 +23,7 @@ async def main(message):
 	if message.content.startswith('!GIF'):
 		await GIF_list(user)
 
-	with open('helptext.txt') as file:
-		await user.send('\n'.join(file.readlines()))
+	await send_help(user)
 
 async def bulk_delete(channel):
 	messages_id = [message async for message in channel.history(limit=123)]
@@ -54,3 +53,19 @@ async def GIF_list(user):
 		).set_thumbnail(url= "attachment://" + file.filename)
 		await user.send(file= file, embed=embed)
 	return
+
+async def send_help(user):
+	embed = discord.Embed(title='command list', color=0x51F5EA)
+	with open('helptext.txt') as file :
+		lines = file.readlines()
+		for line in lines:
+			command, description = line.rstrip().split(' , ')
+			embed.add_field(name= command.rstrip(), value= description, inline=False)
+			embed.add_field(name='\u200b', value='\u200b', inline=False)
+	await user.send(embed= embed)
+
+async def try_delete(message):
+	try:
+		await message.delete()
+	except discord.errors.Forbidden:
+		pass

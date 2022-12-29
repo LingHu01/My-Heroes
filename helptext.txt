@@ -1,3 +1,3 @@
-!roll           roll a dice
-!bulkdelete     delete all message from channel (admin only)
-!GIF            show GIF list
+!roll           , roll a dice
+!bulkdelete     , delete all message
+!GIF            , show GIF list

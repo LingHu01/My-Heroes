@@ -1,9 +1,8 @@
 import schedule
 import discord
-import command_response
+import command
 import pickle
 import GIF
-
 
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs) :
@@ -27,10 +26,10 @@ class MyClient(discord.Client):
         channel = client.get_channel(message.channel.id)
 
         if message.content.startswith('!'):
-            await command_response.main(message)
+            await command.main(message)
 
         if message.content.startswith(':') and message.content.endswith(':'):
-            await message.delete()
+            await command.try_delete(message)
             key = message.content[1:-1]
             await GIF.post_GIF(key, self.GIF_dict, channel, message)
 
@@ -84,7 +83,6 @@ class MyClient(discord.Client):
             await member.remove_roles(role)
         except discord.HTTPException:
             pass
-
 
 intents = discord.Intents.default()
 intents.message_content = True
