@@ -47,7 +47,7 @@ async def GIF_list(user):
 	)
 	await user.send(embed= embed)
 	for key in dct.keys():
-		file = discord.File(dct[key], filename=key + '.gif')
+		file = discord.File('/'.join(dct[key].split('\\')), filename=key + '.gif')
 		embed = discord.Embed(
 			title= ':' + key + ':',
 			color=0x51F5EA

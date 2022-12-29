@@ -2,7 +2,7 @@ import requests
 import discord
 async def post_GIF(key, GIF_dict, channel, message):
     if key in GIF_dict.keys() :
-        file = GIF_dict[key]
+        file ='/'.join(GIF_dict[key].split('\\'))
         original = message.author.display_name
         name = message.author.display_name
         try :
