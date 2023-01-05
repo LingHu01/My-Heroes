@@ -45,6 +45,10 @@ class MyClient(discord.Client):
             'check <#1055865903906046054> if you\'re interested in guild events'
         await guild.system_channel.send(to_send)
 
+    async def on_raw_member_remove(self, member: discord.RawMemberRemoveEvent): #noqa
+        channel = client.get_channel(1060607557837795348)
+        await channel.send(f'{member.user.display_name} has leave the server')
+
     async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent) :
         if payload.message_id != self.role_message_id :
             return
