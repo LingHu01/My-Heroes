@@ -89,4 +89,4 @@ intents.message_content = True
 intents.members = True
 
 client = MyClient(intents=intents)
-client.run(secret.DISCORD_TOKEN)
+client.run(os.environ['DISCORD_TOKEN'])
