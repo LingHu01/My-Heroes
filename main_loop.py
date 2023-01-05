@@ -3,6 +3,7 @@ import discord
 import command
 import pickle
 import GIF
+import os
 
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs) :
