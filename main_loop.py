@@ -3,7 +3,6 @@ import discord
 import command
 import pickle
 import GIF
-import os
 
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs) :
@@ -90,4 +89,4 @@ intents.message_content = True
 intents.members = True
 
 client = MyClient(intents=intents)
-client.run(os.environ['DISCORD_TOKEN'])
+client.run('MTA1NTE0MTk3OTIyNDI4OTM4MA.G_4X8D.cl5QasCdeCCoTpFSU5AAEoS7Xn5TGu1AhQhaXU')
