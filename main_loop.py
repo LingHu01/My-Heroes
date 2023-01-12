@@ -9,7 +9,7 @@ class MyClient(discord.Client):
     def __init__(self, *args, **kwargs) :
         super().__init__(*args, **kwargs)
         self.GIF_dict = pickle.load(open('GIF_dict.pkl', 'rb'))
-        self.role_message_id = 1055867648891703376
+        self.role_message_id = 1063218533695238205
         self.emoji_to_role = {
             discord.PartialEmoji(name='🔴')           : 1055864399421771807,
             discord.PartialEmoji(name='🟢')           : 1055864488357810357,
@@ -30,7 +30,7 @@ class MyClient(discord.Client):
         await on_member_f.leave(member, client)
 
     async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent) : # noqa
-        await on_reaction_f.add(self, payload, discord)
+        await on_reaction_f.add(self, payload, discord, client)
 
 
 
