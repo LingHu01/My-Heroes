@@ -8,7 +8,7 @@ async def main(self, message, client):
     channel = client.get_channel(message.channel.id)
 
     if message.content.startswith('!') :
-        await command.main(message)
+        await command.main(self, message)
 
     if message.content.startswith(':') and message.content.endswith(':') :
         await command.try_delete(message)

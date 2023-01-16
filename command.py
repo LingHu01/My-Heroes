@@ -3,7 +3,7 @@ from asyncio import sleep
 import pickle
 import discord
 
-async def main(message):
+async def main(self, message):
 	channel = message.channel
 	author= message.author
 	user = message.author
@@ -22,6 +22,14 @@ async def main(message):
 
 	if message.content.startswith('!GIF'):
 		await GIF_list(user)
+		return
+
+	if message.content.startswith('!setting'):
+		await send_setting(user, message)
+		return
+
+	if message.content.startswith('!night'):
+		await night(self, message, user)
 		return
 
 	await send_help(user)
@@ -56,12 +64,24 @@ async def GIF_list(user):
 
 async def send_help(user):
 	embed = discord.Embed(title='command list', color=0x51F5EA)
-	with open('helptext.txt') as file :
+	with open('text/helptext.txt') as file :
 		lines = file.readlines()
 		for line in lines:
-			command, description = line.rstrip().split(' , ')
+			command, description = line.rstrip().split(' | ')
 			embed.add_field(name= command.rstrip(), value= description, inline=False)
 			embed.add_field(name='\u200b', value='\u200b', inline=False)
+	await user.send(embed= embed)
+
+async def send_setting(user, message):
+	if not 'staff' in (role.name for role in message.author.roles) :
+		return
+
+	embed = discord.Embed(title='command list', color=0x51F5EA)
+	with open('text/setting.txt') as file :
+		lines = file.readlines()
+		for line in lines:
+			command, description = line.rstrip().split(' | ')
+			embed.add_field(name= command.rstrip(), value= description, inline=False)
 	await user.send(embed= embed)
 
 async def try_delete(message):
@@ -69,3 +89,23 @@ async def try_delete(message):
 		await message.delete()
 	except discord.errors.Forbidden:
 		pass
+
+async def night(self, message, user):
+	if 'staff' not in (role.name for role in user.roles) :
+		await user.send(f'{user.name} have not that privilege')
+		return
+
+	_, day, *time = message.content.rstrip().split(' ')
+	if day == 'print':
+		await user.send(self.night_raid_time)
+		return
+
+	day = int(day)
+	if day in range(1, 6) and int(time[0].split(':')[0]) in range (0, 25) and int(time[0].split(':')[1]) in range (0,61):
+		self.night_raid_time[day] = time[0]
+		pickle.dump(self.night_raid_time, open('night_raid_time.pkl', 'wb'))
+		await user.send(f"successfully set day {day} to {time[0]}")
+	elif day not in range(1, 6):
+		await user.send('invalid day')
+	else:
+		await user.send('invalid time')

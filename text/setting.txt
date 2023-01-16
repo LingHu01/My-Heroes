@@ -1,0 +1,3 @@
+!bulkselete         | delete message from channel
+!night <day> <time> | set night raid time, day in numer, time HH:MM
+!night print        | print night raid time

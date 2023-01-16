@@ -1,3 +1,0 @@
-!roll           , roll a dice
-!bulkdelete     , delete all message
-!GIF            , show GIF list

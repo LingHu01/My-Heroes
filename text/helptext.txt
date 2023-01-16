@@ -1,0 +1,3 @@
+!roll           | roll a dice
+!GIF            | show GIF list
+!setting        | settigns command

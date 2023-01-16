@@ -8,6 +8,7 @@ import on_reaction_f
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs) :
         super().__init__(*args, **kwargs)
+        self.night_raid_time = pickle.load(open('night_raid_time.pkl', 'rb'))
         self.GIF_dict = pickle.load(open('GIF_dict.pkl', 'rb'))
         self.role_message_id = 1063218533695238205
         self.emoji_to_role = {
