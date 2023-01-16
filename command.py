@@ -97,7 +97,10 @@ async def night(self, message, user):
 
 	_, day, *time = message.content.rstrip().split(' ')
 	if day == 'print':
-		await user.send(self.night_raid_time)
+		message_content = ''
+		for key in self.night_raid_time.keys() :
+			message_content += f"{key}: {self.night_raid_time[key]}\n"
+		await user.send(message_content[:-1])
 		return
 
 	day = int(day)
