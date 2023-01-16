@@ -91,16 +91,16 @@ async def try_delete(message):
 		pass
 
 async def night(self, message, user):
-	if 'staff' not in (role.name for role in user.roles) :
-		await user.send(f'{user.name} have not that privilege')
-		return
-
 	_, day, *time = message.content.rstrip().split(' ')
 	if day == 'print':
 		message_content = ''
 		for key in self.night_raid_time.keys() :
 			message_content += f"{key}: {self.night_raid_time[key]}\n"
 		await user.send(message_content[:-1])
+		return
+
+	if 'staff' not in (role.name for role in user.roles) :
+		await user.send(f'{user.name} have not that privilege')
 		return
 
 	day = int(day)
