@@ -1,4 +1,4 @@
-!roll               | roll a dice
+!roll               | roll a die
 !GIF                | show GIF list
 !setting            | settigns command
 !night print        | show night raid time
