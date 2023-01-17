@@ -13,4 +13,4 @@ async def join(member):
 
 async def leave(member, client):
     channel = client.get_channel(1060607557837795348)
-    await channel.send(f'{member.user.display_name} has leave the server')
+    await channel.send(f'{member.user.display_name} has left the server')
