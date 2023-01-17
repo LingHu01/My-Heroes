@@ -5,9 +5,10 @@ async def join(member):
 
     to_send = \
         f'Welcome {member.mention} to {guild.name}!\n' + \
-        'Change name to your in game name\n' + \
-        'To apply tag @staff in <#1055160381288501348>\n' + \
-        'check <#1055865903906046054> if you\'re interested in guild events'
+        'do the following: \n' + \
+        '-Change name to your in game name\n\n' + \
+        '-To apply send the application in-game and ***ONLY*** after tag @staff in <#1055160381288501348>\n\n' + \
+        '-check <#1055865903906046054> if you\'re interested in co-op content'
     await guild.system_channel.send(to_send)
 
 async def leave(member, client):
