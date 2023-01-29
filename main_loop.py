@@ -11,7 +11,7 @@ class MyClient(discord.Client):
         super().__init__(*args, **kwargs)
         self.night_raid_time = pickle.load(open('night_raid_time.pkl', 'rb'))
         self.GIF_dict = pickle.load(open('GIF_dict.pkl', 'rb'))
-        self.role_message_id = 1063218533695238205
+        self.role_message_id = 1069345953217253456
         self.emoji_to_role = {
             discord.PartialEmoji(name='🔴')          : 1055864399421771807,
             discord.PartialEmoji(name='🟢')          : 1055864488357810357,
@@ -23,7 +23,7 @@ class MyClient(discord.Client):
         self.tree = tree # noqa
 
     async def on_ready(self):
-        self.role_message_channel = client.get_channel(1055206234657148970)  # noqa
+        self.role_message_channel = client.get_channel(1055865903906046054)  # noqa
         await on_ready_f.main(self, client)
 
     async def on_message(self, message): # noqa
