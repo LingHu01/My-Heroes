@@ -26,4 +26,7 @@ async def schedule_message(self, channel):
             await channel.send('<@&1055864399421771807> now')
 
         if current_server_time == '01:00' and weekday == 1:
+            await channel.send('<@&1069338069314052146')
+
+        if current_server_time == '01:00' and weekday == 1:
             await bulk_delete(channel)
