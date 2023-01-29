@@ -1,2 +1,5 @@
 !bulkselete         | delete message from channel
 !night <day> <time> | set night raid time, day in numer, time HH:MM
+!say <message>      | bot say the message
+!reaction <id>      | set reaction message id
+!sync               | sync slash commands

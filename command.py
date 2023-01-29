@@ -27,14 +27,13 @@ async def main(self, message):
 		return await night(self, message, user)
 
 	if message.content.startswith('!sync'):
-		if 'staff' in (role.name for role in message.author.roles) :
-			return await tree.sync(guild=discord.Object(id=1048019801802555392))
-		return
+		return await sync(message, user)
 
 	if message.content.startswith('!reaction'):
-		react_id = message.content.rstrip().split(' ')[1]
-		self.role_message_id = react_id
-		return await user.send(f"id set to {react_id}")
+		return await reaction(self, message, user)
+
+	if message.content.startswith('!say'):
+		return await say(message, user, channel)
 
 	await send_help(user)
 
@@ -116,3 +115,17 @@ async def night(self, message, user):
 		await user.send('invalid day')
 	else:
 		await user.send('invalid time')
+
+async def reaction(self, message, user):
+	react_id = message.content.rstrip().split(' ')[1]
+	self.role_message_id = react_id
+	await user.send(f"id set to {react_id}")
+
+async def sync(message, user):
+	if 'staff' in (role.name for role in message.author.roles) :
+		await tree.sync(guild=discord.Object(id=1048019801802555392))
+		await user.send('sync successful')
+
+async def say(message, user, channel):
+	if 'staff' not in (role.name for role in user.roles):
+		await channel.send(message.content.rstrip().split(' ', maxsplit= 1)[1])
