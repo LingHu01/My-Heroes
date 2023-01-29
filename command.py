@@ -133,10 +133,8 @@ async def say(message, user, channel):
 async def react(self, message, user):
 	if 'staff' in (role.name for role in user.roles) :
 		channel = self.role_message_channel
-		print(self.role_message_id)
 		target_message = await channel.fetch_message(self.role_message_id)
 		_, *emoji = message.content.rstrip().split(' ', maxsplit=1)
-		print(emoji)
 		for x in emoji[0]:
 			print(x)
 			await target_message.add_reaction(x)
