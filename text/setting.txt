@@ -3,3 +3,4 @@
 !say <message>      | bot say the message
 !reaction <id>      | set reaction message id
 !sync               | sync slash commands
+!react <emoji>      | add reaction to react message

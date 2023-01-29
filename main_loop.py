@@ -16,7 +16,7 @@ class MyClient(discord.Client):
             discord.PartialEmoji(name='🔴')          : 1055864399421771807,
             discord.PartialEmoji(name='🟢')          : 1055864488357810357,
             discord.PartialEmoji(name='🔵')          : 1062791691544830113,
-            discord.PartialEmoji(name='🔵')          : 1062791691544830113
+            discord.PartialEmoji(name='⚪')          : 1062791691544830113
         }
 
     async def on_ready(self):
