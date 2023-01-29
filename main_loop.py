@@ -12,14 +12,16 @@ class MyClient(discord.Client):
         self.night_raid_time = pickle.load(open('night_raid_time.pkl', 'rb'))
         self.GIF_dict = pickle.load(open('GIF_dict.pkl', 'rb'))
         self.role_message_id = 1063218533695238205
-        self.role_message_channel =  client.get_channel(1055865903906046054)
-        self.tree = tree
         self.emoji_to_role = {
             discord.PartialEmoji(name='🔴')          : 1055864399421771807,
             discord.PartialEmoji(name='🟢')          : 1055864488357810357,
             discord.PartialEmoji(name='🔵')          : 1062791691544830113,
             discord.PartialEmoji(name='⚪')          : 1062791691544830113
         }
+
+    async def setup_hook(self) -> None:
+        self.tree = tree # noqa
+        self.role_message_channel = client.get_channel(1055865903906046054) # noqa
 
     async def on_ready(self):
         await on_ready_f.main(self, client)
