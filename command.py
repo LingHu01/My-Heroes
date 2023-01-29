@@ -37,6 +37,9 @@ async def main(self, message):
 	if message.content.startswith('!react'):
 		return await react(self, message, user)
 
+	if message.content.startswith('!announce'):
+		return await announce(self, message, user)
+
 	await send_help(user)
 
 async def bulk_delete(channel):
@@ -132,10 +135,17 @@ async def say(message, user, channel):
 		await channel.send(message.content.rstrip().split(' ', maxsplit= 1)[1])
 
 async def react(self, message, user):
+	if not 'staff' in (role.name for role in user.roles) :
+		return
+
+	channel = self.role_channel
+	target_message = await channel.fetch_message(self.role_message_id)
+	_, *emoji = message.content.rstrip().split(' ', maxsplit=1)
+	for x in emoji[0]:
+		print(x)
+		await target_message.add_reaction(x)
+
+async def announce(self, message, user):
 	if 'staff' in (role.name for role in user.roles) :
-		channel = self.role_message_channel
-		target_message = await channel.fetch_message(self.role_message_id)
-		_, *emoji = message.content.rstrip().split(' ', maxsplit=1)
-		for x in emoji[0]:
-			print(x)
-			await target_message.add_reaction(x)
+		channel = self.announcement_channel
+		await channel.send(message.content.rstrip().split(' ', maxsplit= 1)[1])

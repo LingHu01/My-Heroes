@@ -23,7 +23,8 @@ class MyClient(discord.Client):
         self.tree = tree # noqa
 
     async def on_ready(self):
-        self.role_message_channel = client.get_channel(1055865903906046054)  # noqa
+        self.role_channel = client.get_channel(1055865903906046054)  # noqa
+        self.announcement_channel = client.get_channel(1051111394436718673) # noqa
         await on_ready_f.main(self, client)
 
     async def on_message(self, message): # noqa
