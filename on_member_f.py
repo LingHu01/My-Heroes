@@ -10,6 +10,7 @@ async def join(member):
         '-To apply send the application in-game and ***ONLY*** after tag @staff in <#1055160381288501348>\n\n' + \
         '-check <#1055865903906046054> if you\'re interested in co-op content'
     await guild.system_channel.send(to_send)
+    await member.user.send('type !help for available commands')
 
 async def leave(member, client):
     channel = client.get_channel(1060607557837795348)
