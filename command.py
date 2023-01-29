@@ -6,6 +6,8 @@ async def main(self, message):
 	channel = message.channel
 	user = message.author
 
+	await try_delete(message)
+
 	if message.content.startswith('!roll'):
 		return await roll(channel, user)
 
