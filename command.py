@@ -2,8 +2,6 @@ import random
 from asyncio import sleep
 import pickle
 import discord
-from main_loop import tree, client
-
 async def main(self, message):
 	channel = message.channel
 	user = message.author
@@ -27,7 +25,7 @@ async def main(self, message):
 		return await night(self, message, user)
 
 	if message.content.startswith('!sync'):
-		return await sync(message, user)
+		return await sync(self, message, user)
 
 	if message.content.startswith('!reaction'):
 		return await reaction(self, message, user)
@@ -124,9 +122,9 @@ async def reaction(self, message, user):
 	self.role_message_id = react_id
 	await user.send(f"id set to {react_id}")
 
-async def sync(message, user):
+async def sync(self, message, user):
 	if 'staff' in (role.name for role in message.author.roles) :
-		await tree.sync(guild=discord.Object(id=1048019801802555392))
+		await self.tree.sync(guild=discord.Object(id=1048019801802555392))
 		await user.send('sync successful')
 
 async def say(message, user, channel):
@@ -135,7 +133,7 @@ async def say(message, user, channel):
 
 async def react(self, message, user):
 	if 'staff' not in (role.name for role in user.roles) :
-		channel = await client.get_channel(1055865903906046054)
+		channel = self.role_message_channel
 		target_message = await channel.fetch(self.role_message_id)
 		_, *emoji = message.content.rstrip().split(' ', maxsplit=1)
 		for x in emoji:
