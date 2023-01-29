@@ -5,7 +5,6 @@ import discord
 async def main(self, message):
 	channel = message.channel
 	user = message.author
-	await try_delete(message)
 
 	if message.content.startswith('!roll'):
 		return await roll(channel, user)
@@ -128,13 +127,16 @@ async def sync(self, message, user):
 		await user.send('sync successful')
 
 async def say(message, user, channel):
-	if 'staff' not in (role.name for role in user.roles):
+	if 'staff' in (role.name for role in user.roles):
 		await channel.send(message.content.rstrip().split(' ', maxsplit= 1)[1])
 
 async def react(self, message, user):
-	if 'staff' not in (role.name for role in user.roles) :
+	if 'staff' in (role.name for role in user.roles) :
 		channel = self.role_message_channel
-		target_message = await channel.fetch(self.role_message_id)
+		print(self.role_message_id)
+		target_message = await channel.fetch_message(self.role_message_id)
 		_, *emoji = message.content.rstrip().split(' ', maxsplit=1)
-		for x in emoji:
+		print(emoji)
+		for x in emoji[0]:
+			print(x)
 			await target_message.add_reaction(x)

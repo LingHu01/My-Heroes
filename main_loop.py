@@ -19,11 +19,11 @@ class MyClient(discord.Client):
             discord.PartialEmoji(name='⚪')          : 1069338069314052146
         }
 
-    async def setup_hook(self) -> None:
+    async def setup_hook(self):
         self.tree = tree # noqa
-        self.role_message_channel = client.get_channel(1055865903906046054) # noqa
 
     async def on_ready(self):
+        self.role_message_channel = client.get_channel(1055206234657148970)  # noqa
         await on_ready_f.main(self, client)
 
     async def on_message(self, message): # noqa
