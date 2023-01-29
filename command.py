@@ -2,35 +2,39 @@ import random
 from asyncio import sleep
 import pickle
 import discord
+from main_loop import tree
 
 async def main(self, message):
 	channel = message.channel
-	author= message.author
 	user = message.author
 	await try_delete(message)
 
 	if message.content.startswith('!roll'):
-		await roll(channel, author)
-		return
+		return await roll(channel, user)
 
 	if message.content.startswith('!bulkdelete'):
 		if 'staff' in  (role.name for role in message.author.roles):
-			await bulk_delete(channel)
-		else:
-			await channel.send(f'{author.name} tried to bulk delete')
-		return
+			return await bulk_delete(channel)
+		return await channel.send(f'{user.name} tried to bulk delete')
 
 	if message.content.startswith('!GIF'):
-		await GIF_list(user)
-		return
+		return await GIF_list(user)
 
 	if message.content.startswith('!setting'):
-		await send_setting(user, message)
-		return
+		return await send_setting(user, message)
 
 	if message.content.startswith('!night'):
-		await night(self, message, user)
+		return await night(self, message, user)
+
+	if message.content.startswith('!sync'):
+		if 'staff' in (role.name for role in message.author.roles) :
+			return await tree.sync(guild=discord.Object(id=1048019801802555392))
 		return
+
+	if message.content.startswith('!reaction'):
+		react_id = message.content.rstrip().split(' ')[1]
+		self.role_message_id = react_id
+		return await user.send(f"id set to {react_id}")
 
 	await send_help(user)
 
