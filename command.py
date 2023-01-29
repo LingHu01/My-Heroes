@@ -74,14 +74,13 @@ async def send_help(user):
 		for line in lines:
 			command, description = line.rstrip().split(' | ')
 			embed.add_field(name= command.rstrip(), value= description, inline=False)
-			embed.add_field(name='\u200b', value='\u200b', inline=False)
 	await user.send(embed= embed)
 
 async def send_setting(user, message):
 	if not 'staff' in (role.name for role in message.author.roles) :
 		return
 
-	embed = discord.Embed(title='command list', color=0x51F5EA)
+	embed = discord.Embed(title='setting list', color=0x51F5EA)
 	with open('text/setting.txt') as file :
 		lines = file.readlines()
 		for line in lines:
