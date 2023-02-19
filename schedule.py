@@ -15,7 +15,7 @@ async def schedule_message(self, channel):
             if current_server_time in {'08:00', '15:00', '20:00'}:
                 await channel.send('<@&1055864488357810357>')
             if current_server_time == '13:00' and weekday == 7 :
-                await channel.send('<@&1069338069314052146')
+                await channel.send('<@&1069338069314052146>')
             continue
 
         hours, minutes = map(int, self.night_raid_time[weekday].split(':'))

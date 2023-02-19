@@ -5,7 +5,8 @@ async def join(member):
 
     to_send = \
         f'Welcome {member.mention} to {guild.name}!\n' + \
-        'do the following: \n' + \
+        'do the following: \n\n' + \
+        '-Read <#1064163861244153856>\n\n' + \
         '-Change name to your in game name\n\n' + \
         '-To apply send the application in-game and ***ONLY*** after tag @staff in <#1055160381288501348>\n\n' + \
         '-check <#1055865903906046054> if you\'re interested in co-op content'
