@@ -14,10 +14,8 @@ async def main(self, message):
 	if message.content.startswith('!roll'):
 		return await roll(channel, user)
 
-	if message.content.startswith('!bulkdelete'):
-		if 'staff' in  (role.name for role in message.author.roles):
-			return await bulk_delete(channel)
-		return await channel.send(f'{user.name} tried to bulk delete')
+	if message.content.startswith('!bulkdelete') and 'staff' in  (role.name for role in message.author.roles):
+		return await bulk_delete(channel)
 
 	if message.content.startswith('!GIF'):
 		return await GIF_list(user)
