@@ -4,12 +4,16 @@ import on_message_f
 import on_ready_f
 import on_member_f
 import on_reaction_f
+import quickstart as quickstart
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+import os
 from discord import app_commands
 
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs) :
         super().__init__(*args, **kwargs)
-        self.night_raid_time = pickle.load(open('night_raid_time.pkl', 'rb'))
+        self.night_raid_time = pickle.loads(drive_service.files().get_media(fileId='16zD6USJln7fmlAd2V5EcmE28m0xnwwRR').execute())
         self.GIF_dict = pickle.load(open('GIF_dict.pkl', 'rb'))
         self.role_message_id = 1069345953217253456
         self.emoji_to_role = {
@@ -21,6 +25,7 @@ class MyClient(discord.Client):
 
     async def setup_hook(self):
         self.tree = tree # noqa
+        self.drive = drive_service
 
     async def on_ready(self):
         self.role_channel = client.get_channel(1055865903906046054)  # noqa
@@ -40,12 +45,20 @@ class MyClient(discord.Client):
     async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent) : # noqa
         await on_reaction_f.add(self, payload, discord, client)
 
-intents = discord.Intents.default()
-intents.message_content = True
-intents.members = True
+if __name__ == "__main__":
+    intents = discord.Intents.default()
+    intents.message_content = True
+    intents.members = True
 
-client = MyClient(intents=intents)
-guild = discord.Object(id=1048019801802555392)
-tree = app_commands.CommandTree(client)
+    quickstart.main()
+    script_path = os.getcwd()
+    TOKEN_PATH = script_path + '/token.json'
 
-client.run('MTA1NTE0MTk3OTIyNDI4OTM4MA.G_4X8D.cl5QasCdeCCoTpFSU5AAEoS7Xn5TGu1AhQhaXU')
+    creds = Credentials.from_authorized_user_file(TOKEN_PATH)
+    drive_service = build('drive', 'v3', credentials=creds)
+
+    client = MyClient(intents=intents, drive= drive_service)
+    guild = discord.Object(id=1048019801802555392)
+    tree = app_commands.CommandTree(client)
+
+    client.run('MTA1NTE0MTk3OTIyNDI4OTM4MA.G_4X8D.cl5QasCdeCCoTpFSU5AAEoS7Xn5TGu1AhQhaXU')

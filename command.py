@@ -2,6 +2,9 @@ import random
 from asyncio import sleep
 import pickle
 import discord
+import io
+from googleapiclient.http import MediaIoBaseUpload
+from googleapiclient.errors import HttpError
 async def main(self, message):
 	channel = message.channel
 	user = message.author
@@ -113,8 +116,20 @@ async def night(self, message, user):
 	day = int(day)
 	if day in range(1, 6) and int(time[0].split(':')[0]) in range (0, 25) and int(time[0].split(':')[1]) in range (0,61):
 		self.night_raid_time[day] = time[0]
-		pickle.dump(self.night_raid_time, open('night_raid_time.pkl', 'wb'))
 		await user.send(f"successfully set day {day} to {time[0]}")
+
+		file_id = '16zD6USJln7fmlAd2V5EcmE28m0xnwwRR'
+		pkl_data = pickle.dumps(self.night_raid_time)
+		file_stream = io.BytesIO(pkl_data)
+		media = MediaIoBaseUpload(file_stream, mimetype='application/octet-stream')
+		try :
+			# Call the Drive API to update the file
+			file_metadata = {'name' : 'night_raid_time.pkl'}
+			self.drive.files().update(fileId=file_id, media_body=media, body=file_metadata).execute()
+
+			await user.send('File updated successfully.')
+		except HttpError as error :
+			await user.send(f'An error occurred: {error}')
 	elif day not in range(1, 6):
 		await user.send('invalid day')
 	else:
