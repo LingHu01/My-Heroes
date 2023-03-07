@@ -157,7 +157,6 @@ async def react(self, message, user):
 	target_message = await channel.fetch_message(self.role_message_id)
 	_, emoji = message.content.rstrip().split(' ', maxsplit=1)
 	for x in emoji:
-		print(x)
 		await target_message.add_reaction(x)
 
 async def announce(self, message, user):

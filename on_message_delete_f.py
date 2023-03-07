@@ -1,5 +1,6 @@
 import discord
 
-def main(self, message):
-    embed = discord.Embed(title=f'{message.author.name} deleted', color=0x51F5EA)
-    await self.log_channel.send(embed=embed)
+async def main(self, message):
+    if not message.author.bot :
+        embed = discord.Embed(title=f'{message.author.name} was deleted', color=0x51F5EA, description= message.content)
+        await self.log_channel.send(embed=embed)
