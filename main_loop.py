@@ -4,6 +4,8 @@ import on_message_f
 import on_ready_f
 import on_member_f
 import on_reaction_f
+import on_message_edit_f
+import on_message_delete_f
 import quickstart as quickstart
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -30,6 +32,7 @@ class MyClient(discord.Client):
     async def on_ready(self):
         self.role_channel = client.get_channel(1055865903906046054)  # noqa
         self.cmd_log = client.get_channel(1082773264939626526)  # noqa
+        self.log_channel = client.get_channel(1082778992907669564) # noqa
         self.announcement_channel = client.get_channel(1051111394436718673) # noqa
         await on_ready_f.main(self, client)
 
@@ -45,6 +48,12 @@ class MyClient(discord.Client):
 
     async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent) : # noqa
         await on_reaction_f.add(self, payload, discord, client)
+
+    async def on_message_edit(self, before, after) : # noqa
+        await on_message_edit_f.main(self, before, after)
+
+    async def on_message_delete(self, message) : # noqa
+        await on_message_delete_f.main(self, message)
 
 if __name__ == "__main__":
     intents = discord.Intents.default()
