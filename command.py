@@ -9,7 +9,7 @@ async def main(self, message):
 	channel = message.channel
 	user = message.author
 
-	await try_delete(message)
+	await try_delete(self, message)
 
 	if message.content.startswith('!roll'):
 		return await roll(channel, user)
@@ -94,7 +94,9 @@ async def send_setting(user, message):
 			embed.add_field(name= command.rstrip(), value= description, inline=False)
 	await user.send(embed= embed)
 
-async def try_delete(message):
+async def try_delete(self, message):
+	embed = discord.Embed(title=message.author.name, color=0x51F5EA, description= message.content)
+	self.cmd_log.send(embed= embed)
 	try:
 		await message.delete()
 	except discord.errors.Forbidden:

@@ -25,10 +25,11 @@ class MyClient(discord.Client):
 
     async def setup_hook(self):
         self.tree = tree # noqa
-        self.drive = drive_service
+        self.drive = drive_service # noqa
 
     async def on_ready(self):
         self.role_channel = client.get_channel(1055865903906046054)  # noqa
+        self.cmd_log = client.get_channel(1082773264939626526)  # noqa
         self.announcement_channel = client.get_channel(1051111394436718673) # noqa
         await on_ready_f.main(self, client)
 
