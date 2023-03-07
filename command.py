@@ -96,7 +96,7 @@ async def send_setting(user, message):
 
 async def try_delete(self, message):
 	embed = discord.Embed(title=message.author.name, color=0x51F5EA, description= message.content)
-	self.cmd_log.send(embed= embed)
+	await self.cmd_log.send(embed= embed)
 	try:
 		await message.delete()
 	except discord.errors.Forbidden:
