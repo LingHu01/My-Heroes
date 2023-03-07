@@ -93,7 +93,7 @@ async def send_setting(user, message):
 	await user.send(embed= embed)
 
 async def try_delete(self, message):
-	embed = discord.Embed(title=message.author.name, color=0x51F5EA, description= message.content)
+	embed = discord.Embed(title=f'{message.author.name} used', color=0x51F5EA, description= message.content)
 	await self.cmd_log.send(embed= embed)
 	try:
 		await message.delete()
