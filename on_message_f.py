@@ -11,6 +11,6 @@ async def main(self, message, client):
         await command.main(self, message)
 
     if message.content.startswith(':') and message.content.endswith(':') :
-        await command.try_delete(message)
+        await command.try_delete(self, message)
         key = message.content[1 :-1]
         await GIF.post_GIF(key, self.GIF_dict, channel, message)
