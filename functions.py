@@ -3,45 +3,10 @@ from asyncio import sleep
 import pickle
 import discord
 import io
+import quickstart
 from googleapiclient.http import MediaIoBaseUpload
 from googleapiclient.errors import HttpError
-async def main(self, message):
-	channel = message.channel
-	user = message.author
-
-	await try_delete(self, message)
-
-	if message.content.startswith('!roll'):
-		return await roll(channel, user)
-
-	if message.content.startswith('!bulkdelete') and 'staff' in  (role.name for role in message.author.roles):
-		return await bulk_delete(channel)
-
-	if message.content.startswith('!GIF'):
-		return await GIF_list(user)
-
-	if message.content.startswith('!setting'):
-		return await send_setting(user, message)
-
-	if message.content.startswith('!night'):
-		return await night(self, message, user)
-
-	if message.content.startswith('!sync'):
-		return await sync(self, message, user)
-
-	if message.content.startswith('!reaction'):
-		return await reaction(self, message, user)
-
-	if message.content.startswith('!say'):
-		return await say(message, user, channel)
-
-	if message.content.startswith('!react'):
-		return await react(self, message, user)
-
-	if message.content.startswith('!announce'):
-		return await announce(self, message, user)
-
-	await send_help(user)
+from google.auth.exceptions import RefreshError
 
 async def bulk_delete(channel):
 	messages_id = [message async for message in channel.history(limit=123)]
@@ -49,11 +14,9 @@ async def bulk_delete(channel):
 		await message.delete()
 		await sleep(1)
 
-
 async def roll(channel, author):
 	to_send = f'{author.display_name} rolled {random.randint(1, 6)}'
 	await channel.send(to_send)
-
 
 async def GIF_list(user):
 	dct = pickle.load(open('GIF_dict.pkl', 'rb'))
@@ -118,18 +81,16 @@ async def night(self, message, user):
 		self.night_raid_time[day] = time[0]
 		await user.send(f"successfully set day {day} to {time[0]}")
 
-		file_id = '16zD6USJln7fmlAd2V5EcmE28m0xnwwRR'
-		pkl_data = pickle.dumps(self.night_raid_time)
-		file_stream = io.BytesIO(pkl_data)
-		media = MediaIoBaseUpload(file_stream, mimetype='application/octet-stream')
 		try :
-			# Call the Drive API to update the file
-			file_metadata = {'name' : 'night_raid_time.pkl'}
-			self.drive.files().update(fileId=file_id, media_body=media, body=file_metadata).execute()
-
+			await save_to_cloud(self, file_id = '16zD6USJln7fmlAd2V5EcmE28m0xnwwRR')
 			await user.send('File updated successfully.')
+		except RefreshError:
+			await user.send('token expired')
+			self.drive = await quickstart.refresh()
+			await user.send('token refreshed')
 		except HttpError as error :
 			await user.send(f'An error occurred: {error}')
+
 	elif day not in range(1, 6):
 		await user.send('invalid day')
 	else:
@@ -163,3 +124,10 @@ async def announce(self, message, user):
 	if 'staff' in (role.name for role in user.roles) :
 		channel = self.announcement_channel
 		await channel.send(message.content.rstrip().split(' ', maxsplit= 1)[1])
+
+async def save_to_cloud(self, file_id):
+	pkl_data = pickle.dumps(self.night_raid_time)
+	file_stream = io.BytesIO(pkl_data)
+	media = MediaIoBaseUpload(file_stream, mimetype='application/octet-stream')
+	file_metadata = {'name' : 'night_raid_time.pkl'}
+	self.drive.files().update(fileId=file_id, media_body=media, body=file_metadata).execute()

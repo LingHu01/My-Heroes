@@ -1,7 +1,7 @@
 import datetime
 import pytz
 from asyncio import sleep
-from command import bulk_delete
+from functions import bulk_delete
 
 async def schedule_message(self, channel):
     server_timezone = pytz.timezone("America/New_York")

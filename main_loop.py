@@ -1,15 +1,10 @@
+import os
 import discord
 import pickle
-import on_message_f
-import on_ready_f
-import on_member_f
-import on_reaction_f
-import on_message_edit_f
-import on_message_delete_f
+import discord_method
 import quickstart as quickstart
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
-import os
 from discord import app_commands
 
 class MyClient(discord.Client):
@@ -34,26 +29,26 @@ class MyClient(discord.Client):
         self.cmd_log = client.get_channel(1082773264939626526)  # noqa
         self.log_channel = client.get_channel(1082778992907669564) # noqa
         self.announcement_channel = client.get_channel(1051111394436718673) # noqa
-        await on_ready_f.main(self, client)
+        await discord_method.on_ready(self, client)
 
     async def on_message(self, message): # noqa
-        await on_message_f.main(self, message, client)
+        await discord_method.on_message(self, message, client)
 
 
     async def on_member_join(self, member): # noqa
-        await on_member_f.join(member)
+        await discord_method.on_memeber_join(member)
 
     async def on_raw_member_remove(self, member: discord.RawMemberRemoveEvent): # noqa
-        await on_member_f.leave(member, client)
+        await discord_method.on_memeber_leave(member, client)
 
     async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent) : # noqa
-        await on_reaction_f.add(self, payload, discord, client)
+        await discord_method.on_reaction(self, payload, client)
 
     async def on_message_edit(self, before, after) : # noqa
-        await on_message_edit_f.main(self, before, after)
+        await discord_method.on_message_edit(self, before, after)
 
     async def on_message_delete(self, message) : # noqa
-        await on_message_delete_f.main(self, message)
+        await discord_method.on_message_delete(self, message, )
 
 if __name__ == "__main__":
     intents = discord.Intents.default()

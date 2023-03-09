@@ -1,7 +1,0 @@
-import discord
-
-async def main(self, message):
-    if message.content.startswith('!'):
-        return
-    embed = discord.Embed(title=f"{message.author.display_name}'s message was deleted", color=0x51F5EA, description= message.content)
-    await self.log_channel.send(embed=embed)
