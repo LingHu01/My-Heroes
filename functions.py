@@ -82,12 +82,13 @@ async def night(self, message, user):
 		await user.send(f"successfully set day {day} to {time[0]}")
 
 		try :
-			await save_to_cloud(self, file_id = '16zD6USJln7fmlAd2V5EcmE28m0xnwwRR')
-			await user.send('File updated successfully.')
+			await save_to_cloud(self, user, file_id = '16zD6USJln7fmlAd2V5EcmE28m0xnwwRR')
+
 		except RefreshError:
 			await user.send('token expired')
 			self.drive = await quickstart.refresh()
 			await user.send('token refreshed')
+
 		except HttpError as error :
 			await user.send(f'An error occurred: {error}')
 
@@ -125,9 +126,10 @@ async def announce(self, message, user):
 		channel = self.announcement_channel
 		await channel.send(message.content.rstrip().split(' ', maxsplit= 1)[1])
 
-async def save_to_cloud(self, file_id):
+async def save_to_cloud(self, user, file_id):
 	pkl_data = pickle.dumps(self.night_raid_time)
 	file_stream = io.BytesIO(pkl_data)
 	media = MediaIoBaseUpload(file_stream, mimetype='application/octet-stream')
 	file_metadata = {'name' : 'night_raid_time.pkl'}
-	self.drive.files().update(fileId=file_id, media_body=media, body=file_metadata).execute()
+	await self.drive.files().update(fileId=file_id, media_body=media, body=file_metadata).execute()
+	await user.send('File updated successfully.')
