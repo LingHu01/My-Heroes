@@ -10,7 +10,7 @@ async def schedule_message(self, channel):
         await sleep(60)
         time_info = datetime.datetime.now(server_timezone)
         weekday = datetime.datetime.weekday(time_info) + 1
-        current_server_time = time_info.strftime("%H:%M:%S")
+        current_server_time = time_info.strftime("%H:%M")
 
         if weekday not in self.night_raid_time.keys():
             if current_server_time in {'08:00', '15:00', '20:00'}:
