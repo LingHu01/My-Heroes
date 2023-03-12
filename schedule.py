@@ -4,7 +4,7 @@ from asyncio import sleep
 from functions import bulk_delete
 
 async def schedule_message(self, channel):
-    server_timezone = pytz.timezone("America/New_York")
+    server_timezone = pytz.timezone("Etc/GMT+5")
     await syncing(server_timezone)
     while True:
         await sleep(60)
