@@ -7,10 +7,10 @@ async def schedule_message(self, channel):
     server_timezone = pytz.timezone("America/New_York")
     await syncing(server_timezone)
     while True:
+        await sleep(60)
         time_info = datetime.datetime.now(server_timezone)
         weekday = datetime.datetime.weekday(time_info) + 1
-        current_server_time = time_info.strftime("%H:%M")
-        await sleep(60)
+        current_server_time = time_info.strftime("%H:%M:%S")
 
         if weekday not in self.night_raid_time.keys():
             if current_server_time in {'08:00', '15:00', '20:00'}:
