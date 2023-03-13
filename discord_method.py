@@ -94,7 +94,7 @@ async def on_reaction(self, payload, client):
 
 async def on_memeber_leave(member, client):
     channel = client.get_channel(1060607557837795348)
-    await channel.send(f'<@!{member.id}>{member.user.display_name} has left the server')
+    await channel.send(f'{member.user.display_name} has left the server')
 
 async def on_memeber_join(member):
     guild = member.guild
