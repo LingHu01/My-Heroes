@@ -46,12 +46,11 @@ async def on_ready(self, client):
     channel = client.get_channel(1055175384926273546)
     await client.loop.create_task(schedule.schedule_message(self, channel))
 
-async def on_message_delete(self, before, after):
-    if before.content != after.content:
-        embed = discord.Embed(title=f"{before.author.display_name}'s message edited", color=0x51F5EA)
-        embed.add_field(name= 'from', value= before.content, inline=False)
-        embed.add_field(name='to', value=after.content, inline=False)
-        await self.log_channel.send(embed= embed)
+async def on_message_delete(self, message):
+    if message.content.startswith('!') :
+        return
+    embed = discord.Embed(title=f"{message.author.display_name}'s message was deleted", color=0x51F5EA, description=message.content)
+    await self.log_channel.send(embed=embed)
 
 async def on_message_edit(self, before, after):
     if before.content != after.content:

@@ -48,7 +48,7 @@ class MyClient(discord.Client):
         await discord_method.on_message_edit(self, before, after)
 
     async def on_message_delete(self, message) : # noqa
-        await discord_method.on_message_delete(self, message, )
+        await discord_method.on_message_delete(self, message)
 
 if __name__ == "__main__":
     intents = discord.Intents.default()
