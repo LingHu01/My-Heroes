@@ -131,5 +131,5 @@ async def save_to_cloud(self, user, file_id):
 	file_stream = io.BytesIO(pkl_data)
 	media = MediaIoBaseUpload(file_stream, mimetype='application/octet-stream')
 	file_metadata = {'name' : 'night_raid_time.pkl'}
-	await self.drive.files().update(fileId=file_id, media_body=media, body=file_metadata).execute()
+	self.drive.files().update(fileId=file_id, media_body=media, body=file_metadata).execute()
 	await user.send('File updated successfully.')
