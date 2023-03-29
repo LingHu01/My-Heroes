@@ -28,8 +28,10 @@ async def schedule_message(self, channel):
         if target_time.strftime('%H:%M') == time_info.strftime('%H:%M'):
             await channel.send('<@&1055864399421771807> now')
 
-        if current_server_time == '01:00' and weekday == 1:
-            await bulk_delete(channel)
+        if current_server_time == '01:00':
+            if weekday == 1:
+                await bulk_delete(channel)
+            await syncing(server_timezone)
 
 async def syncing(server_timezone):
     while not datetime.datetime.now(server_timezone).strftime("%H:%M:%S").endswith('00'):

@@ -5,100 +5,107 @@ import discord
 
 
 async def on_message(self, message, client):
-    if message.author.bot :
+    if message.author.bot:
         return
     channel = client.get_channel(message.channel.id)
 
-    if message.content.startswith('!') :
+    if message.content.startswith('!'):
         channel = message.channel
         user = message.author
         await functions.try_delete(self, message)
 
-        if message.content.startswith('!roll') :
+        if message.content.startswith('!roll'):
             return await functions.roll(channel, user)
-        if message.content.startswith('!bulkdelete') and 'staff' in (role.name for role in message.author.roles) :
+        if message.content.startswith('!bulkdelete') and 'staff' in (role.name for role in message.author.roles):
             return await functions.bulk_delete(channel)
-        if message.content.startswith('!GIF') :
+        if message.content.startswith('!GIF'):
             return await functions.GIF_list(user)
-        if message.content.startswith('!setting') :
+        if message.content.startswith('!setting'):
             return await functions.send_setting(user, message)
-        if message.content.startswith('!night') :
+        if message.content.startswith('!night'):
             return await functions.night(self, message, user)
-        if message.content.startswith('!sync') :
+        if message.content.startswith('!sync'):
             return await functions.sync(self, message, user)
-        if message.content.startswith('!reaction') :
+        if message.content.startswith('!reaction'):
             return await functions.reaction(self, message, user)
-        if message.content.startswith('!say') :
+        if message.content.startswith('!say'):
             return await functions.say(message, user, channel)
-        if message.content.startswith('!react') :
+        if message.content.startswith('!react'):
             return await functions.react(self, message, user)
-        if message.content.startswith('!announce') :
+        if message.content.startswith('!announce'):
             return await functions.announce(self, message, user)
         await functions.send_help(user)
 
-    if message.content.startswith(':') and message.content.endswith(':') :
+    if message.content.startswith(':') and message.content.endswith(':'):
         await functions.try_delete(self, message)
-        key = message.content[1 :-1]
+        key = message.content[1:-1]
         await GIF.post_GIF(key, self.GIF_dict, channel, message)
+
 
 async def on_ready(self, client):
     print(f'Logged on as {self.user}!')
     channel = client.get_channel(1055175384926273546)
     await client.loop.create_task(schedule.schedule_message(self, channel))
 
+
 async def on_message_delete(self, message):
-    if message.content.startswith('!') :
+    if message.content.startswith('!'):
         return
-    embed = discord.Embed(title=f"{message.author.display_name}'s message was deleted", color=0x51F5EA, description=message.content)
+    embed = discord.Embed(title=f"{message.author.display_name}'s message was deleted", color=0x51F5EA,
+                          description=message.content)
     await self.log_channel.send(embed=embed)
+
 
 async def on_message_edit(self, before, after):
     if before.content != after.content:
         embed = discord.Embed(title=f"{before.author.display_name}'s message edited", color=0x51F5EA)
-        embed.add_field(name= 'from', value= before.content, inline=False)
+        embed.add_field(name='from', value=before.content, inline=False)
         embed.add_field(name='to', value=after.content, inline=False)
-        await self.log_channel.send(embed= embed)
+        await self.log_channel.send(embed=embed)
+
 
 async def on_reaction(self, payload, client):
-    if payload.member.bot :
+    if payload.member.bot:
         return
 
-    if payload.message_id != self.role_message_id :
+    if payload.message_id != self.role_message_id:
         return
 
     channel = client.get_channel(payload.channel_id)
     message = await channel.fetch_message(payload.message_id)
     await message.remove_reaction(payload.emoji, payload.member)
 
-    try :
+    try:
         role_id = self.emoji_to_role[payload.emoji]
-    except KeyError :
+    except KeyError:
         return
 
     guild = self.get_guild(payload.guild_id)
     role = guild.get_role(role_id)
 
-    if role is None :
+    if role is None:
         return
 
-    try :
+    try:
         member = await guild.fetch_member(payload.member.id)
-        if role not in payload.member.roles :
+        if role not in payload.member.roles:
             await payload.member.add_roles(role)
             await member.send(f'role @{role.name} added ')
-        else :
+        else:
             await payload.member.remove_roles(role)
             await member.send(f'role @{role.name} removed ')
-    except discord.HTTPException :
+    except discord.HTTPException:
         pass
+
 
 async def on_memeber_leave(event, client):
     channel = client.get_channel(1060607557837795348)
     await channel.send(f'<@!{event.user.id}> {event.user.display_name} has left the server')
 
+
 async def on_memeber_join(member):
     guild = member.guild
-    if guild.system_channel is None :
+    if guild.system_channel is None:
         return
 
     to_send = \
