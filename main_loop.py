@@ -1,10 +1,7 @@
-import os
 import discord
 import pickle
 import discord_method
-import quickstart as quickstart
-from google.oauth2.credentials import Credentials
-from googleapiclient.discovery import build
+import dropbox
 from discord import app_commands
 
 
@@ -18,8 +15,7 @@ class MyClient(discord.Client):
         self.log_channel = None
         self.announcement_channel = None
 
-        self.night_raid_time = pickle.loads(
-            drive_service.files().get_media(fileId='16zD6USJln7fmlAd2V5EcmE28m0xnwwRR').execute())
+        self.night_raid_time = pickle.loads(dbx.files_download(path='/night_raid_time.pkl')[1].content)
         self.GIF_dict = pickle.load(open('GIF_dict.pkl', 'rb'))
         self.role_message_id = 1069345953217253456
         self.emoji_to_role = {
@@ -31,7 +27,7 @@ class MyClient(discord.Client):
 
     async def setup_hook(self):
         self.tree = tree
-        self.drive = drive_service
+        self.drive = dbx
 
     async def on_ready(self):
         self.role_channel = client.get_channel(1055865903906046054)
@@ -64,14 +60,9 @@ if __name__ == "__main__":
     intents.message_content = True
     intents.members = True
 
-    quickstart.main()
-    script_path = os.getcwd()
-    TOKEN_PATH = script_path + '/token.json'
+    dbx = dropbox.Dropbox('sl.BbhidFvUo7QfjZyLL_qe_i5xOjGyByGsRPScQptVvKO0uKFfl2rDemVhjuLQ_7uNhhKrthR5g9Pc6Z01pKOogi_i6zY1erY9PincsInZEy180QVNpAXrKZX1bcDFu2v2QA4Afvo')
 
-    creds = Credentials.from_authorized_user_file(TOKEN_PATH)
-    drive_service = build('drive', 'v3', credentials=creds)
-
-    client = MyClient(intents=intents, drive=drive_service)
+    client = MyClient(intents=intents, drive=dbx)
     guild = discord.Object(id=1048019801802555392)
     tree = app_commands.CommandTree(client)
 
