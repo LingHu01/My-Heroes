@@ -1,8 +1,8 @@
-# fly.toml file generated for my-heroes on 2022-12-21T20:17:11+01:00
+# fly.toml app configuration file generated for my-heroes on 2023-05-29T20:20:21+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
 app = "my-heroes"
 kill_signal = "SIGINT"
-kill_timeout = 5
-processes = []
-
-[env]
+kill_timeout = "5s"

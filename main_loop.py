@@ -1,8 +1,9 @@
 import discord
 import pickle
 import discord_method
-import dropbox
 from discord import app_commands
+import atexit
+import drive
 
 
 class MyClient(discord.Client):
@@ -14,8 +15,10 @@ class MyClient(discord.Client):
         self.cmd_log = None
         self.log_channel = None
         self.announcement_channel = None
+        self.bot_channel = None
 
         self.night_raid_time = pickle.loads(dbx.files_download(path='/night_raid_time.pkl')[1].content)
+        print(self.night_raid_time)
         self.GIF_dict = pickle.load(open('GIF_dict.pkl', 'rb'))
         self.role_message_id = 1069345953217253456
         self.emoji_to_role = {
@@ -36,6 +39,9 @@ class MyClient(discord.Client):
         self.announcement_channel = client.get_channel(1051111394436718673)
         await discord_method.on_ready(self, client)
 
+    def closing(self):
+        discord_method.on_disconnect(self)
+
     async def on_message(self, message):  # noqa
         await discord_method.on_message(self, message, client)
 
@@ -55,14 +61,19 @@ class MyClient(discord.Client):
         await discord_method.on_message_delete(self, message)
 
 
+def cleanup():
+    client.closing()
+
+
 if __name__ == "__main__":
     intents = discord.Intents.default()
     intents.message_content = True
     intents.members = True
 
-    dbx = dropbox.Dropbox('sl.BbhidFvUo7QfjZyLL_qe_i5xOjGyByGsRPScQptVvKO0uKFfl2rDemVhjuLQ_7uNhhKrthR5g9Pc6Z01pKOogi_i6zY1erY9PincsInZEy180QVNpAXrKZX1bcDFu2v2QA4Afvo')
+    dbx = drive.main()
 
     client = MyClient(intents=intents, drive=dbx)
+    atexit.register(cleanup)
     guild = discord.Object(id=1048019801802555392)
     tree = app_commands.CommandTree(client)
 

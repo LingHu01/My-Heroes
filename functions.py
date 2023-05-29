@@ -4,7 +4,6 @@ import pickle
 import discord
 import dropbox
 
-
 async def bulk_delete(channel):
     messages_id = [message async for message in channel.history(limit=123)]
     for message in messages_id:
@@ -132,4 +131,4 @@ async def announce(self, message, user):
 async def save_to_cloud(self, user, file_path):
     pkl_data = pickle.dumps(self.night_raid_time)
     self.drive.files_upload(pkl_data, file_path, mode=dropbox.files.WriteMode.overwrite)
-    await user.send('File updated successfully.')
+    await user.send(f'{file_path[1:]} File updated successfully.')
