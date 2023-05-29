@@ -18,7 +18,6 @@ class MyClient(discord.Client):
         self.bot_channel = None
 
         self.night_raid_time = pickle.loads(dbx.files_download(path='/night_raid_time.pkl')[1].content)
-        print(self.night_raid_time)
         self.GIF_dict = pickle.load(open('GIF_dict.pkl', 'rb'))
         self.role_message_id = 1069345953217253456
         self.emoji_to_role = {
