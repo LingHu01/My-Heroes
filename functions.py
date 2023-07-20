@@ -132,3 +132,8 @@ async def save_to_cloud(self, user, file_path):
     pkl_data = pickle.dumps(self.night_raid_time)
     self.drive.files_upload(pkl_data, file_path, mode=dropbox.files.WriteMode.overwrite)
     await user.send(f'{file_path[1:]} File updated successfully.')
+
+
+async def close():
+    from main_loop import MyClient
+    exit(MyClient)

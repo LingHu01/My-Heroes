@@ -35,6 +35,8 @@ async def on_message(self, message, client):
             return await functions.react(self, message, user)
         if message_lower.startswith('!announce'):
             return await functions.announce(self, message, user)
+        if message_lower.startswith('!close'):
+            return await functions.close()
         await functions.send_help(user)
 
     if message.content.startswith(':') and message.content.endswith(':'):
