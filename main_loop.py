@@ -76,4 +76,4 @@ if __name__ == "__main__":
     guild = discord.Object(id=1048019801802555392)
     tree = app_commands.CommandTree(client)
 
-    client.run('MTA1NTE0MTk3OTIyNDI4OTM4MA.G_4X8D.cl5QasCdeCCoTpFSU5AAEoS7Xn5TGu1AhQhaXU')
+    client.run('Token')
